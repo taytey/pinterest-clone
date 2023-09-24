@@ -1,6 +1,7 @@
 <script>
 import { ref } from 'vue';
 import ImageCard from './imagecard.vue';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 
     export default {
@@ -47,7 +48,7 @@ import ImageCard from './imagecard.vue';
                     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg',
                     alt: 'Image 6',
                     loaded: false,
-                    name: 'test6',
+                    name: 'Shoe',
                 },
                 {
                     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg',
@@ -105,6 +106,8 @@ import ImageCard from './imagecard.vue';
         },
     },
 
+    emits: ['close-imagecard, receiveEmit'],
+
     components: {
         ImageCard,
     },
@@ -113,9 +116,10 @@ import ImageCard from './imagecard.vue';
 </script>
 
 <template>
-    
-    <ImageCard v-if="showComponent" :index="index" :name="image.name" :src="image.src" @close-imagecard="receiveEmit"/>
-    
+
+            <ImageCard v-if="showComponent" :index="index" :name="image.name" :src="image.src" @close-imagecard="receiveEmit">
+                <Transition></Transition>
+            </ImageCard>    
     <div class="absolute z-0">
         <div class="m-10">
         <h1 class="text-gray-200 font-sans md:font-mono text-center text-4xl mb-5">Welcome to your feed.</h1>
@@ -132,5 +136,15 @@ import ImageCard from './imagecard.vue';
 </template>
 
 <style>
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 
 </style>
