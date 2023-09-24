@@ -1,18 +1,14 @@
 <script>
-import { ref } from 'vue';
-import ImageCard from './imagecard.vue';
+    import { ref } from 'vue';
+
+    export default  {
+        name: "MasonryBoard",
+        data() {
+            return {
+                showComponent: false,
 
 
-    export default {
-    name: "Imagepanel",
-    
-    data() {
-        return {
-
-            showComponent: false,
-
-
-            image: ref([
+                images: ref([
                 {
                     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg',
                     alt: 'Image 1',
@@ -85,52 +81,38 @@ import ImageCard from './imagecard.vue';
                     loaded: false,
                     name: 'test12',
                 },
-            ])
-        };
-    },
+            ]),
+            }
+        },
 
-    methods: {
+        methods: {
         enlargeImage() {
 					this.scale = 1.5;
 		},
+    }
+    }
 
-        receiveEmit() {
-            this.showComponent = false;
-        },
-
-        selectImage(index, name, src) {
-            this.index = index;     
-            this.image.name = name;  
-            this.image.src = src;
-        },
-    },
-
-    components: {
-        ImageCard,
-    },
-    
-}
 </script>
-
 <template>
-    
-    <ImageCard v-if="showComponent" :index="index" :name="image.name" :src="image.src" @close-imagecard="receiveEmit"/>
-    
-    <div class="absolute z-0">
-        <div class="m-10">
-        <h1 class="text-gray-200 font-sans md:font-mono text-center text-4xl mb-5">Welcome to your feed.</h1>
-            <masonry :cols="4" :gutter="10">
-                <div v-for="(image, index) in image" :key="image">
-                    <button @click="showComponent = true, selectImage(index, image.name, image.src)">
+    <masonry :cols="4" :gutter="10">
+                <div v-for="(image, index) in images" :key="image">
+                    <button @click="showComponent = true">
                         <img class="hover:scale-110 transition ease-in-out delay-10 h-auto max-w-full rounded-lg mt-2" :src="image.src">
-                        
+                        <v-overlay transition="slide-x-transition" class="rounded-lg" activator="parent">
+                            <div v-if="showComponent" class="d-flex flex-row h-screen w-screen">
+                                <div class="m-auto">
+                                    <v-card height="500" width="1100" variant="tonal" class="bg-black mx-auto rounded-xl static">
+                                        <div class="relative w-900">
+                                            <div class="absolute right-0 w-18 text-3xl">
+                                                <v-btn variant="text" @click="showComponent = false">X</v-btn>
+                                            </div>
+                                        </div>
+                                        <v-img :object-fit="'contain'" :aspect-ratio="1/1" class="fixed transition rounded-lg hover:scale-125 " :max-width="500" cover :src="image.src" :alt="image.alt"></v-img>
+                                    </v-card>
+                                </div>
+                            </div>
+                        </v-overlay>
                     </button>
                 </div>
             </masonry>
-        </div>
-    </div>  
 </template>
-
-<style>
-
-</style>
