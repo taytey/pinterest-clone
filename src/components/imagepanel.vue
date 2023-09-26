@@ -12,6 +12,8 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
 
             showComponent: false,
 
+            activeComponent: 'ImageCard',
+
 
             image: ref([
                 {
@@ -116,10 +118,11 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
 </script>
 
 <template>
+        <ImageCard v-if="showComponent" :name="image.name" :src="image.src" @close-imagecard="receiveEmit" />
 
-            <ImageCard v-if="showComponent" :index="index" :name="image.name" :src="image.src" @close-imagecard="receiveEmit">
-                <Transition></Transition>
-            </ImageCard>    
+        <Transition>
+            <component v-if="showComponent" :is="activeComponent" :name="image.name" :src="image.src" @close-imagecard="receiveEmit"></component>
+        </Transition>
     <div class="absolute z-0">
         <div class="m-10">
         <h1 class="text-gray-200 font-sans md:font-mono text-center text-4xl mb-5">Welcome to your feed.</h1>
@@ -127,7 +130,6 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
                 <div v-for="(image, index) in image" :key="image">
                     <button @click="showComponent = true, selectImage(index, image.name, image.src)">
                         <img class="hover:scale-110 transition ease-in-out delay-10 h-auto max-w-full rounded-lg mt-2" :src="image.src">
-                        
                     </button>
                 </div>
             </masonry>

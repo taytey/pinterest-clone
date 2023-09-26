@@ -5,7 +5,6 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
     export default {
         name: 'ImageCard',
         props: {
-            index: Number,
             name: String,
             src: String,
         },
